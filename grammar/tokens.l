@@ -58,8 +58,8 @@
 
 ((0|[1-9][0-9]*)(\.[0-9]+)?|\.[0-9]+)([eE][\-\+]?[0-9]+)? {
   /* a numeric double value, base 10 (decimal) */
-  double val = atof(yytext);
-  yylval.node = createNodeValueDouble(val);
+  double value = atof(yytext);
+  yylval.node = createNodeValueDouble(value);
   return T_DOUBLE;
 }
 
