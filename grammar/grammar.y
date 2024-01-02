@@ -130,7 +130,7 @@ for_statement:
     T_FOR for_output_variable T_IN expression {
         struct AstNode* variableNameNode = (struct AstNode*)($2);
         struct AstNode* variableNode = create_variable_node(variableNameNode->value._string);
-        addVariable(variableNameNode->value._string, variableNode);
+        add_variable(variableNameNode->value._string, variableNode);
         add_operation(get_current_scope(), create_for_node(variableNode, $4));
     }
   ;

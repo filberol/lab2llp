@@ -6,17 +6,15 @@
 #include <stdlib.h>
 
 #include "./ast_node.h"
-#include "./common_stack.h"
+#include "./stack.h"
 
 void init_ast(void);
 
 struct AstNode *get_ast_root(void);
 struct AstNode* get_current_scope(void);
 
-char* copy_quoted_string(const char* src);
-char* copy_string(const char* src);
 
-void addVariable(char *name, struct AstNode* value);
+void add_variable(char *name, struct AstNode* value);
 struct AstNode *get_variable(char *name);
 
 struct AstNode *create_filter_node(struct AstNode *node);

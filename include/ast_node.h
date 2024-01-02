@@ -70,5 +70,7 @@ struct AstNode {
 #define INVALID_AST_NODE_VALUE (struct AstNodeValue){INVALID, {._string = NULL}};
 
 void add_ast_node(struct AstNode *parent, struct AstNode *children);
+char* copy_quoted_string(const char* src);
+char* copy_string(const char* src);
 
 #endif //ASTNODE_H
