@@ -121,7 +121,7 @@ statement_block_statement:
 
 for_output_variable:
     variable_name {
-          struct AstNode* node = createNodeValueString($1);
+          struct AstNode* node = create_string_node($1);
           $$ = node;
         }
     ;
@@ -129,23 +129,23 @@ for_output_variable:
 for_statement:
     T_FOR for_output_variable T_IN expression {
         struct AstNode* variableNameNode = (struct AstNode*)($2);
-        struct AstNode* variableNode = create_variable_node(variableNameNode->astNodeValue._string);
-        addVariable(variableNameNode->astNodeValue._string, variableNode);
-        addOperation(get_current_scope(), createNodeFor(variableNode, $4));
+        struct AstNode* variableNode = create_variable_node(variableNameNode->value._string);
+        addVariable(variableNameNode->value._string, variableNode);
+        add_operation(get_current_scope(), create_for_node(variableNode, $4));
     }
   ;
 
 filter_statement:
     T_FILTER expression {
       struct AstNode* filterNode = create_filter_node($2);
-      addOperation(get_current_scope(), filterNode);
+      add_operation(get_current_scope(), filterNode);
     }
   ;
 
 return_statement:
     T_RETURN expression {
       struct AstNode* node = create_return_node($2);
-      addOperation(get_current_scope(), node);
+      add_operation(get_current_scope(), node);
     }
   ;
 
@@ -158,21 +158,21 @@ in_collection:
 remove_statement:
     T_REMOVE expression in_collection  {
       struct AstNode* node = create_remove_node($2, $3);
-      addOperation(get_current_scope(), node);
+      add_operation(get_current_scope(), node);
     }
   ;
 
 insert_statement:
     T_INSERT expression in_collection {
       struct AstNode* node = create_insert_node($2, $3);
-      addOperation(get_current_scope(), node);
+      add_operation(get_current_scope(), node);
     }
   ;
 
 update_parameters:
     expression in_collection {
       struct AstNode* node = create_update_node($1, $2);
-      addOperation(get_current_scope(), node);
+      add_operation(get_current_scope(), node);
     }
   ;
 
@@ -184,10 +184,10 @@ update_statement:
 
 object:
     T_OBJECT_OPEN {
-      struct AstNode* node = createNodeObject();
-      pushCommon(node);
+      struct AstNode* node = create_node_object();
+      push_common(node);
     } optional_object_elements T_OBJECT_CLOSE {
-      $$ = (struct AstNode*)(popCommon());
+      $$ = (struct AstNode*)(pop_common());
     }
   ;
 
@@ -211,11 +211,11 @@ object_element:
     T_STRING {
       struct AstNode* variable = get_variable($1);
       struct AstNode* node = create_reference_node(variable);
-      pushObjectElement($1, node);
+      push_object_element($1, node);
       $$ = node;
     }
   | object_element_name T_COLON expression {
-      pushObjectElement($1, $3);
+      push_object_element($1, $3);
     }
   ;
 
@@ -230,31 +230,31 @@ object_element_name:
 
 operator_binary:
     expression T_OR expression {
-      $$ = createNodeBinaryOperator(NODE_TYPE_OPERATOR_BINARY_OR, $1, $3);
+      $$ = create_binary_op_node(NODE_TYPE_OPERATOR_BINARY_OR, $1, $3);
     }
   | expression T_AND expression {
-      $$ = createNodeBinaryOperator(NODE_TYPE_OPERATOR_BINARY_AND, $1, $3);
+      $$ = create_binary_op_node(NODE_TYPE_OPERATOR_BINARY_AND, $1, $3);
     }
   | expression T_EQ expression {
-      $$ = createNodeBinaryOperator(NODE_TYPE_OPERATOR_BINARY_EQ, $1, $3);
+      $$ = create_binary_op_node(NODE_TYPE_OPERATOR_BINARY_EQ, $1, $3);
     }
   | expression T_NE expression {
-      $$ = createNodeBinaryOperator(NODE_TYPE_OPERATOR_BINARY_NE, $1, $3);
+      $$ = create_binary_op_node(NODE_TYPE_OPERATOR_BINARY_NE, $1, $3);
     }
   | expression T_LT expression {
-      $$ = createNodeBinaryOperator(NODE_TYPE_OPERATOR_BINARY_LT, $1, $3);
+      $$ = create_binary_op_node(NODE_TYPE_OPERATOR_BINARY_LT, $1, $3);
     }
   | expression T_GT expression {
-      $$ = createNodeBinaryOperator(NODE_TYPE_OPERATOR_BINARY_GT, $1, $3);
+      $$ = create_binary_op_node(NODE_TYPE_OPERATOR_BINARY_GT, $1, $3);
     }
   | expression T_LE expression {
-      $$ = createNodeBinaryOperator(NODE_TYPE_OPERATOR_BINARY_LE, $1, $3);
+      $$ = create_binary_op_node(NODE_TYPE_OPERATOR_BINARY_LE, $1, $3);
     }
   | expression T_GE expression {
-      $$ = createNodeBinaryOperator(NODE_TYPE_OPERATOR_BINARY_GE, $1, $3);
+      $$ = create_binary_op_node(NODE_TYPE_OPERATOR_BINARY_GE, $1, $3);
     }
   | expression T_IN expression {
-      $$ = createNodeBinaryOperator(NODE_TYPE_OPERATOR_BINARY_IN, $1, $3);
+      $$ = create_binary_op_node(NODE_TYPE_OPERATOR_BINARY_IN, $1, $3);
     }
   ;
 
@@ -277,7 +277,7 @@ reference:
 
       variable = get_variable($1);
       if (variable == NULL) {
-          node = createNodeDataSource($1);
+          node = create_data_source_node($1);
       } else {
         node = variable;
       }
@@ -285,8 +285,8 @@ reference:
     }
     | reference '.' T_STRING {
         struct AstNode* ref = (struct AstNode*)($1);
-        struct AstNode* access = createNodeAttributeAccess($3);
-        addOperation(ref, access);
+        struct AstNode* access = create_attribute_access_node($3);
+        add_operation(ref, access);
         $$ = ref;
     }
     | T_OPEN expression T_CLOSE {
@@ -308,13 +308,13 @@ numeric_value:
 
 value_literal:
     T_QUOTED_STRING {
-      $$ = createNodeValueString($1);
+      $$ = create_string_node($1);
     }
   | numeric_value {
       $$ = $1;
     }
   | T_NULL {
-      $$ = createNodeValueNull();
+      $$ = create_null_value_node();
     }
   | T_TRUE {
       $$ = create_bool_node(true);
@@ -326,7 +326,7 @@ value_literal:
 
 in_collection_name:
     T_STRING {
-      $$ = createNodeDataSource($1);
+      $$ = create_data_source_node($1);
     }
   ;
 

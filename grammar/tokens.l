@@ -59,7 +59,7 @@
 ((0|[1-9][0-9]*)(\.[0-9]+)?|\.[0-9]+)([eE][\-\+]?[0-9]+)? {
   /* a numeric double value, base 10 (decimal) */
   double value = atof(yytext);
-  yylval.node = createNodeValueDouble(value);
+  yylval.node = create_double_node(value);
   return T_DOUBLE;
 }
 
