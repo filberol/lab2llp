@@ -1,0 +1,1942 @@
+Terminals unused in grammar
+
+    "REPLACE"
+    "["
+    "]"
+    "not operator"
+    T_PLUS
+    T_MINUS
+    T_TIMES
+    T_DIV
+    T_MOD
+    UMINUS
+    UPLUS
+    UNEGATION
+    REFERENCE
+
+
+State 67 conflicts: 9 shift/reduce
+State 68 conflicts: 1 shift/reduce
+State 69 conflicts: 1 shift/reduce
+State 70 conflicts: 1 shift/reduce
+State 71 conflicts: 1 shift/reduce
+State 72 conflicts: 1 shift/reduce
+State 73 conflicts: 1 shift/reduce
+State 74 conflicts: 1 shift/reduce
+State 75 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: queryStart "end"
+
+    1 queryStart: query
+
+    2 query: optional_statement_block_statements final_statement
+
+    3 final_statement: return_statement
+    4                | remove_statement
+    5                | insert_statement
+    6                | update_statement
+
+    7 optional_statement_block_statements: ε
+    8                                    | optional_statement_block_statements statement_block_statement
+
+    9 statement_block_statement: for_statement
+   10                          | filter_statement
+   11                          | remove_statement
+   12                          | insert_statement
+   13                          | update_statement
+
+   14 for_output_variable: variable_name
+
+   15 for_statement: "FOR" for_output_variable "IN" expression
+
+   16 filter_statement: "FILTER" expression
+
+   17 return_statement: "RETURN" expression
+
+   18 in_collection: "IN" in_collection_name
+
+   19 remove_statement: "REMOVE" expression in_collection
+
+   20 insert_statement: "INSERT" expression in_collection
+
+   21 update_parameters: expression in_collection
+
+   22 update_statement: "UPDATE" update_parameters
+
+   23 $@1: ε
+
+   24 object: "{" $@1 optional_object_elements "}"
+
+   25 optional_object_elements: ε
+   26                         | object_elements_list
+   27                         | object_elements_list ","
+
+   28 object_elements_list: object_element
+   29                     | object_elements_list "," object_element
+
+   30 object_element: "string"
+   31               | object_element_name ":" expression
+
+   32 object_element_name: "string"
+   33                    | "q-string"
+
+   34 operator_binary: expression "or operator" expression
+   35                | expression "and operator" expression
+   36                | expression "==" expression
+   37                | expression "!=" expression
+   38                | expression "<" expression
+   39                | expression ">" expression
+   40                | expression "<=" expression
+   41                | expression ">=" expression
+   42                | expression "IN" expression
+
+   43 expression: operator_binary
+   44           | value_literal
+   45           | reference
+
+   46 reference: "string"
+   47          | reference '.' "string"
+   48          | "(" expression ")"
+   49          | object
+
+   50 numeric_value: "int"
+   51              | "double"
+
+   52 value_literal: "q-string"
+   53              | numeric_value
+   54              | "null"
+   55              | "true"
+   56              | "false"
+
+   57 in_collection_name: "string"
+
+   58 variable_name: "string"
+
+
+Terminals, with rules where they appear
+
+    "end" (0) 0
+    '.' (46) 47
+    error (256)
+    "FOR" (258) 15
+    "FILTER" (259) 16
+    "RETURN" (260) 17
+    "REMOVE" (261) 19
+    "INSERT" (262) 20
+    "UPDATE" (263) 22
+    "REPLACE" (264)
+    "IN" (265) 15 18 42
+    "q-string" <s_val> (266) 33 52
+    "null" (267) 54
+    "true" (268) 55
+    "false" (269) 56
+    "string" <s_val> (270) 30 32 46 47 57 58
+    "int" <node> (271) 50
+    "double" <node> (272) 51
+    "==" (273) 36
+    "!=" (274) 37
+    "<" (275) 38
+    ">" (276) 39
+    "<=" (277) 40
+    ">=" (278) 41
+    "," (279) 27 29
+    "(" (280) 48
+    ")" (281) 48
+    "{" (282) 24
+    "}" (283) 24
+    "[" (284)
+    "]" (285)
+    ":" (286) 31
+    "not operator" (287)
+    "and operator" (288) 35
+    "or operator" (289) 34
+    T_PLUS (290)
+    T_MINUS (291)
+    T_TIMES (292)
+    T_DIV (293)
+    T_MOD (294)
+    UMINUS (295)
+    UPLUS (296)
+    UNEGATION (297)
+    REFERENCE (298)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (45)
+        on left: 0
+    queryStart (46)
+        on left: 1
+        on right: 0
+    query (47)
+        on left: 2
+        on right: 1
+    final_statement (48)
+        on left: 3 4 5 6
+        on right: 2
+    optional_statement_block_statements (49)
+        on left: 7 8
+        on right: 2 8
+    statement_block_statement (50)
+        on left: 9 10 11 12 13
+        on right: 8
+    for_output_variable <node> (51)
+        on left: 14
+        on right: 15
+    for_statement (52)
+        on left: 15
+        on right: 9
+    filter_statement (53)
+        on left: 16
+        on right: 10
+    return_statement (54)
+        on left: 17
+        on right: 3
+    in_collection <node> (55)
+        on left: 18
+        on right: 19 20 21
+    remove_statement (56)
+        on left: 19
+        on right: 4 11
+    insert_statement (57)
+        on left: 20
+        on right: 5 12
+    update_parameters (58)
+        on left: 21
+        on right: 22
+    update_statement (59)
+        on left: 22
+        on right: 6 13
+    object <node> (60)
+        on left: 24
+        on right: 49
+    $@1 (61)
+        on left: 23
+        on right: 24
+    optional_object_elements <node> (62)
+        on left: 25 26 27
+        on right: 24
+    object_elements_list <node> (63)
+        on left: 28 29
+        on right: 26 27 29
+    object_element <node> (64)
+        on left: 30 31
+        on right: 28 29
+    object_element_name <s_val> (65)
+        on left: 32 33
+        on right: 31
+    operator_binary <node> (66)
+        on left: 34 35 36 37 38 39 40 41 42
+        on right: 43
+    expression <node> (67)
+        on left: 43 44 45
+        on right: 15 16 17 19 20 21 31 34 35 36 37 38 39 40 41 42 48
+    reference <node> (68)
+        on left: 46 47 48 49
+        on right: 45 47
+    numeric_value <node> (69)
+        on left: 50 51
+        on right: 53
+    value_literal <node> (70)
+        on left: 52 53 54 55 56
+        on right: 44
+    in_collection_name <node> (71)
+        on left: 57
+        on right: 18
+    variable_name <s_val> (72)
+        on left: 58
+        on right: 14
+
+
+State 0
+
+    0 $accept: • queryStart "end"
+    1 queryStart: • query
+    2 query: • optional_statement_block_statements final_statement
+    7 optional_statement_block_statements: ε •
+    8                                    | • optional_statement_block_statements statement_block_statement
+
+    $default  reduce using rule 7 (optional_statement_block_statements)
+
+    queryStart                           go to state 1
+    query                                go to state 2
+    optional_statement_block_statements  go to state 3
+
+
+State 1
+
+    0 $accept: queryStart • "end"
+
+    "end"  shift, and go to state 4
+
+
+State 2
+
+    1 queryStart: query •
+
+    $default  reduce using rule 1 (queryStart)
+
+
+State 3
+
+    2 query: optional_statement_block_statements • final_statement
+    3 final_statement: • return_statement
+    4                | • remove_statement
+    5                | • insert_statement
+    6                | • update_statement
+    8 optional_statement_block_statements: optional_statement_block_statements • statement_block_statement
+    9 statement_block_statement: • for_statement
+   10                          | • filter_statement
+   11                          | • remove_statement
+   12                          | • insert_statement
+   13                          | • update_statement
+   15 for_statement: • "FOR" for_output_variable "IN" expression
+   16 filter_statement: • "FILTER" expression
+   17 return_statement: • "RETURN" expression
+   19 remove_statement: • "REMOVE" expression in_collection
+   20 insert_statement: • "INSERT" expression in_collection
+   22 update_statement: • "UPDATE" update_parameters
+
+    "FOR"     shift, and go to state 5
+    "FILTER"  shift, and go to state 6
+    "RETURN"  shift, and go to state 7
+    "REMOVE"  shift, and go to state 8
+    "INSERT"  shift, and go to state 9
+    "UPDATE"  shift, and go to state 10
+
+    final_statement            go to state 11
+    statement_block_statement  go to state 12
+    for_statement              go to state 13
+    filter_statement           go to state 14
+    return_statement           go to state 15
+    remove_statement           go to state 16
+    insert_statement           go to state 17
+    update_statement           go to state 18
+
+
+State 4
+
+    0 $accept: queryStart "end" •
+
+    $default  accept
+
+
+State 5
+
+   14 for_output_variable: • variable_name
+   15 for_statement: "FOR" • for_output_variable "IN" expression
+   58 variable_name: • "string"
+
+    "string"  shift, and go to state 19
+
+    for_output_variable  go to state 20
+    variable_name        go to state 21
+
+
+State 6
+
+   16 filter_statement: "FILTER" • expression
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 33
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 7
+
+   17 return_statement: "RETURN" • expression
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 37
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 8
+
+   19 remove_statement: "REMOVE" • expression in_collection
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 38
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 9
+
+   20 insert_statement: "INSERT" • expression in_collection
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 39
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 10
+
+   21 update_parameters: • expression in_collection
+   22 update_statement: "UPDATE" • update_parameters
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    update_parameters  go to state 40
+    object             go to state 31
+    operator_binary    go to state 32
+    expression         go to state 41
+    reference          go to state 34
+    numeric_value      go to state 35
+    value_literal      go to state 36
+
+
+State 11
+
+    2 query: optional_statement_block_statements final_statement •
+
+    $default  reduce using rule 2 (query)
+
+
+State 12
+
+    8 optional_statement_block_statements: optional_statement_block_statements statement_block_statement •
+
+    $default  reduce using rule 8 (optional_statement_block_statements)
+
+
+State 13
+
+    9 statement_block_statement: for_statement •
+
+    $default  reduce using rule 9 (statement_block_statement)
+
+
+State 14
+
+   10 statement_block_statement: filter_statement •
+
+    $default  reduce using rule 10 (statement_block_statement)
+
+
+State 15
+
+    3 final_statement: return_statement •
+
+    $default  reduce using rule 3 (final_statement)
+
+
+State 16
+
+    4 final_statement: remove_statement •
+   11 statement_block_statement: remove_statement •
+
+    "end"     reduce using rule 4 (final_statement)
+    $default  reduce using rule 11 (statement_block_statement)
+
+
+State 17
+
+    5 final_statement: insert_statement •
+   12 statement_block_statement: insert_statement •
+
+    "end"     reduce using rule 5 (final_statement)
+    $default  reduce using rule 12 (statement_block_statement)
+
+
+State 18
+
+    6 final_statement: update_statement •
+   13 statement_block_statement: update_statement •
+
+    "end"     reduce using rule 6 (final_statement)
+    $default  reduce using rule 13 (statement_block_statement)
+
+
+State 19
+
+   58 variable_name: "string" •
+
+    $default  reduce using rule 58 (variable_name)
+
+
+State 20
+
+   15 for_statement: "FOR" for_output_variable • "IN" expression
+
+    "IN"  shift, and go to state 42
+
+
+State 21
+
+   14 for_output_variable: variable_name •
+
+    $default  reduce using rule 14 (for_output_variable)
+
+
+State 22
+
+   52 value_literal: "q-string" •
+
+    $default  reduce using rule 52 (value_literal)
+
+
+State 23
+
+   54 value_literal: "null" •
+
+    $default  reduce using rule 54 (value_literal)
+
+
+State 24
+
+   55 value_literal: "true" •
+
+    $default  reduce using rule 55 (value_literal)
+
+
+State 25
+
+   56 value_literal: "false" •
+
+    $default  reduce using rule 56 (value_literal)
+
+
+State 26
+
+   46 reference: "string" •
+
+    $default  reduce using rule 46 (reference)
+
+
+State 27
+
+   50 numeric_value: "int" •
+
+    $default  reduce using rule 50 (numeric_value)
+
+
+State 28
+
+   51 numeric_value: "double" •
+
+    $default  reduce using rule 51 (numeric_value)
+
+
+State 29
+
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   48          | "(" • expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 43
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 30
+
+   23 $@1: ε •
+   24 object: "{" • $@1 optional_object_elements "}"
+
+    $default  reduce using rule 23 ($@1)
+
+    $@1  go to state 44
+
+
+State 31
+
+   49 reference: object •
+
+    $default  reduce using rule 49 (reference)
+
+
+State 32
+
+   43 expression: operator_binary •
+
+    $default  reduce using rule 43 (expression)
+
+
+State 33
+
+   16 filter_statement: "FILTER" expression •
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"            shift, and go to state 45
+    "=="            shift, and go to state 46
+    "!="            shift, and go to state 47
+    "<"             shift, and go to state 48
+    ">"             shift, and go to state 49
+    "<="            shift, and go to state 50
+    ">="            shift, and go to state 51
+    "and operator"  shift, and go to state 52
+    "or operator"   shift, and go to state 53
+
+    $default  reduce using rule 16 (filter_statement)
+
+
+State 34
+
+   45 expression: reference •
+   47 reference: reference • '.' "string"
+
+    '.'  shift, and go to state 54
+
+    $default  reduce using rule 45 (expression)
+
+
+State 35
+
+   53 value_literal: numeric_value •
+
+    $default  reduce using rule 53 (value_literal)
+
+
+State 36
+
+   44 expression: value_literal •
+
+    $default  reduce using rule 44 (expression)
+
+
+State 37
+
+   17 return_statement: "RETURN" expression •
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"            shift, and go to state 45
+    "=="            shift, and go to state 46
+    "!="            shift, and go to state 47
+    "<"             shift, and go to state 48
+    ">"             shift, and go to state 49
+    "<="            shift, and go to state 50
+    ">="            shift, and go to state 51
+    "and operator"  shift, and go to state 52
+    "or operator"   shift, and go to state 53
+
+    $default  reduce using rule 17 (return_statement)
+
+
+State 38
+
+   18 in_collection: • "IN" in_collection_name
+   19 remove_statement: "REMOVE" expression • in_collection
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"            shift, and go to state 55
+    "=="            shift, and go to state 46
+    "!="            shift, and go to state 47
+    "<"             shift, and go to state 48
+    ">"             shift, and go to state 49
+    "<="            shift, and go to state 50
+    ">="            shift, and go to state 51
+    "and operator"  shift, and go to state 52
+    "or operator"   shift, and go to state 53
+
+    in_collection  go to state 56
+
+
+State 39
+
+   18 in_collection: • "IN" in_collection_name
+   20 insert_statement: "INSERT" expression • in_collection
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"            shift, and go to state 55
+    "=="            shift, and go to state 46
+    "!="            shift, and go to state 47
+    "<"             shift, and go to state 48
+    ">"             shift, and go to state 49
+    "<="            shift, and go to state 50
+    ">="            shift, and go to state 51
+    "and operator"  shift, and go to state 52
+    "or operator"   shift, and go to state 53
+
+    in_collection  go to state 57
+
+
+State 40
+
+   22 update_statement: "UPDATE" update_parameters •
+
+    $default  reduce using rule 22 (update_statement)
+
+
+State 41
+
+   18 in_collection: • "IN" in_collection_name
+   21 update_parameters: expression • in_collection
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"            shift, and go to state 55
+    "=="            shift, and go to state 46
+    "!="            shift, and go to state 47
+    "<"             shift, and go to state 48
+    ">"             shift, and go to state 49
+    "<="            shift, and go to state 50
+    ">="            shift, and go to state 51
+    "and operator"  shift, and go to state 52
+    "or operator"   shift, and go to state 53
+
+    in_collection  go to state 58
+
+
+State 42
+
+   15 for_statement: "FOR" for_output_variable "IN" • expression
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 59
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 43
+
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+   48 reference: "(" expression • ")"
+
+    "IN"            shift, and go to state 45
+    "=="            shift, and go to state 46
+    "!="            shift, and go to state 47
+    "<"             shift, and go to state 48
+    ">"             shift, and go to state 49
+    "<="            shift, and go to state 50
+    ">="            shift, and go to state 51
+    ")"             shift, and go to state 60
+    "and operator"  shift, and go to state 52
+    "or operator"   shift, and go to state 53
+
+
+State 44
+
+   24 object: "{" $@1 • optional_object_elements "}"
+   25 optional_object_elements: ε •
+   26                         | • object_elements_list
+   27                         | • object_elements_list ","
+   28 object_elements_list: • object_element
+   29                     | • object_elements_list "," object_element
+   30 object_element: • "string"
+   31               | • object_element_name ":" expression
+   32 object_element_name: • "string"
+   33                    | • "q-string"
+
+    "q-string"  shift, and go to state 61
+    "string"    shift, and go to state 62
+
+    $default  reduce using rule 25 (optional_object_elements)
+
+    optional_object_elements  go to state 63
+    object_elements_list      go to state 64
+    object_element            go to state 65
+    object_element_name       go to state 66
+
+
+State 45
+
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   42                | expression "IN" • expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 67
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 46
+
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   36                | expression "==" • expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 68
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 47
+
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   37                | expression "!=" • expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 69
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 48
+
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   38                | expression "<" • expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 70
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 49
+
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   39                | expression ">" • expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 71
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 50
+
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   40                | expression "<=" • expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 72
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 51
+
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   41                | expression ">=" • expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 73
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 52
+
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   35                | expression "and operator" • expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 74
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 53
+
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   34                | expression "or operator" • expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 75
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 54
+
+   47 reference: reference '.' • "string"
+
+    "string"  shift, and go to state 76
+
+
+State 55
+
+   18 in_collection: "IN" • in_collection_name
+   24 object: • "{" $@1 optional_object_elements "}"
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   42                | expression "IN" • expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+   57 in_collection_name: • "string"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 77
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object              go to state 31
+    operator_binary     go to state 32
+    expression          go to state 67
+    reference           go to state 34
+    numeric_value       go to state 35
+    value_literal       go to state 36
+    in_collection_name  go to state 78
+
+
+State 56
+
+   19 remove_statement: "REMOVE" expression in_collection •
+
+    $default  reduce using rule 19 (remove_statement)
+
+
+State 57
+
+   20 insert_statement: "INSERT" expression in_collection •
+
+    $default  reduce using rule 20 (insert_statement)
+
+
+State 58
+
+   21 update_parameters: expression in_collection •
+
+    $default  reduce using rule 21 (update_parameters)
+
+
+State 59
+
+   15 for_statement: "FOR" for_output_variable "IN" expression •
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"            shift, and go to state 45
+    "=="            shift, and go to state 46
+    "!="            shift, and go to state 47
+    "<"             shift, and go to state 48
+    ">"             shift, and go to state 49
+    "<="            shift, and go to state 50
+    ">="            shift, and go to state 51
+    "and operator"  shift, and go to state 52
+    "or operator"   shift, and go to state 53
+
+    $default  reduce using rule 15 (for_statement)
+
+
+State 60
+
+   48 reference: "(" expression ")" •
+
+    $default  reduce using rule 48 (reference)
+
+
+State 61
+
+   33 object_element_name: "q-string" •
+
+    $default  reduce using rule 33 (object_element_name)
+
+
+State 62
+
+   30 object_element: "string" •
+   32 object_element_name: "string" •
+
+    ":"       reduce using rule 32 (object_element_name)
+    $default  reduce using rule 30 (object_element)
+
+
+State 63
+
+   24 object: "{" $@1 optional_object_elements • "}"
+
+    "}"  shift, and go to state 79
+
+
+State 64
+
+   26 optional_object_elements: object_elements_list •
+   27                         | object_elements_list • ","
+   29 object_elements_list: object_elements_list • "," object_element
+
+    ","  shift, and go to state 80
+
+    $default  reduce using rule 26 (optional_object_elements)
+
+
+State 65
+
+   28 object_elements_list: object_element •
+
+    $default  reduce using rule 28 (object_elements_list)
+
+
+State 66
+
+   31 object_element: object_element_name • ":" expression
+
+    ":"  shift, and go to state 81
+
+
+State 67
+
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+   42                | expression "IN" expression •
+
+    "IN"            shift, and go to state 45
+    "=="            shift, and go to state 46
+    "!="            shift, and go to state 47
+    "<"             shift, and go to state 48
+    ">"             shift, and go to state 49
+    "<="            shift, and go to state 50
+    ">="            shift, and go to state 51
+    "and operator"  shift, and go to state 52
+    "or operator"   shift, and go to state 53
+
+    "IN"            [reduce using rule 42 (operator_binary)]
+    "=="            [reduce using rule 42 (operator_binary)]
+    "!="            [reduce using rule 42 (operator_binary)]
+    "<"             [reduce using rule 42 (operator_binary)]
+    ">"             [reduce using rule 42 (operator_binary)]
+    "<="            [reduce using rule 42 (operator_binary)]
+    ">="            [reduce using rule 42 (operator_binary)]
+    "and operator"  [reduce using rule 42 (operator_binary)]
+    "or operator"   [reduce using rule 42 (operator_binary)]
+    $default        reduce using rule 42 (operator_binary)
+
+
+State 68
+
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   36                | expression "==" expression •
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"  shift, and go to state 45
+    "<"   shift, and go to state 48
+    ">"   shift, and go to state 49
+    "<="  shift, and go to state 50
+    ">="  shift, and go to state 51
+
+    "IN"      [reduce using rule 36 (operator_binary)]
+    $default  reduce using rule 36 (operator_binary)
+
+
+State 69
+
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   37                | expression "!=" expression •
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"  shift, and go to state 45
+    "<"   shift, and go to state 48
+    ">"   shift, and go to state 49
+    "<="  shift, and go to state 50
+    ">="  shift, and go to state 51
+
+    "IN"      [reduce using rule 37 (operator_binary)]
+    $default  reduce using rule 37 (operator_binary)
+
+
+State 70
+
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   38                | expression "<" expression •
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"  shift, and go to state 45
+
+    "IN"      [reduce using rule 38 (operator_binary)]
+    $default  reduce using rule 38 (operator_binary)
+
+
+State 71
+
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   39                | expression ">" expression •
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"  shift, and go to state 45
+
+    "IN"      [reduce using rule 39 (operator_binary)]
+    $default  reduce using rule 39 (operator_binary)
+
+
+State 72
+
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   40                | expression "<=" expression •
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"  shift, and go to state 45
+
+    "IN"      [reduce using rule 40 (operator_binary)]
+    $default  reduce using rule 40 (operator_binary)
+
+
+State 73
+
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   41                | expression ">=" expression •
+   42                | expression • "IN" expression
+
+    "IN"  shift, and go to state 45
+
+    "IN"      [reduce using rule 41 (operator_binary)]
+    $default  reduce using rule 41 (operator_binary)
+
+
+State 74
+
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   35                | expression "and operator" expression •
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"  shift, and go to state 45
+    "=="  shift, and go to state 46
+    "!="  shift, and go to state 47
+    "<"   shift, and go to state 48
+    ">"   shift, and go to state 49
+    "<="  shift, and go to state 50
+    ">="  shift, and go to state 51
+
+    "IN"      [reduce using rule 35 (operator_binary)]
+    $default  reduce using rule 35 (operator_binary)
+
+
+State 75
+
+   34 operator_binary: expression • "or operator" expression
+   34                | expression "or operator" expression •
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"            shift, and go to state 45
+    "=="            shift, and go to state 46
+    "!="            shift, and go to state 47
+    "<"             shift, and go to state 48
+    ">"             shift, and go to state 49
+    "<="            shift, and go to state 50
+    ">="            shift, and go to state 51
+    "and operator"  shift, and go to state 52
+
+    "IN"      [reduce using rule 34 (operator_binary)]
+    $default  reduce using rule 34 (operator_binary)
+
+
+State 76
+
+   47 reference: reference '.' "string" •
+
+    $default  reduce using rule 47 (reference)
+
+
+State 77
+
+   46 reference: "string" •
+   57 in_collection_name: "string" •
+
+    "end"     reduce using rule 57 (in_collection_name)
+    "FOR"     reduce using rule 57 (in_collection_name)
+    "FILTER"  reduce using rule 57 (in_collection_name)
+    "RETURN"  reduce using rule 57 (in_collection_name)
+    "REMOVE"  reduce using rule 57 (in_collection_name)
+    "INSERT"  reduce using rule 57 (in_collection_name)
+    "UPDATE"  reduce using rule 57 (in_collection_name)
+    $default  reduce using rule 46 (reference)
+
+
+State 78
+
+   18 in_collection: "IN" in_collection_name •
+
+    $default  reduce using rule 18 (in_collection)
+
+
+State 79
+
+   24 object: "{" $@1 optional_object_elements "}" •
+
+    $default  reduce using rule 24 (object)
+
+
+State 80
+
+   27 optional_object_elements: object_elements_list "," •
+   29 object_elements_list: object_elements_list "," • object_element
+   30 object_element: • "string"
+   31               | • object_element_name ":" expression
+   32 object_element_name: • "string"
+   33                    | • "q-string"
+
+    "q-string"  shift, and go to state 61
+    "string"    shift, and go to state 62
+
+    $default  reduce using rule 27 (optional_object_elements)
+
+    object_element       go to state 82
+    object_element_name  go to state 66
+
+
+State 81
+
+   24 object: • "{" $@1 optional_object_elements "}"
+   31 object_element: object_element_name ":" • expression
+   34 operator_binary: • expression "or operator" expression
+   35                | • expression "and operator" expression
+   36                | • expression "==" expression
+   37                | • expression "!=" expression
+   38                | • expression "<" expression
+   39                | • expression ">" expression
+   40                | • expression "<=" expression
+   41                | • expression ">=" expression
+   42                | • expression "IN" expression
+   43 expression: • operator_binary
+   44           | • value_literal
+   45           | • reference
+   46 reference: • "string"
+   47          | • reference '.' "string"
+   48          | • "(" expression ")"
+   49          | • object
+   50 numeric_value: • "int"
+   51              | • "double"
+   52 value_literal: • "q-string"
+   53              | • numeric_value
+   54              | • "null"
+   55              | • "true"
+   56              | • "false"
+
+    "q-string"  shift, and go to state 22
+    "null"      shift, and go to state 23
+    "true"      shift, and go to state 24
+    "false"     shift, and go to state 25
+    "string"    shift, and go to state 26
+    "int"       shift, and go to state 27
+    "double"    shift, and go to state 28
+    "("         shift, and go to state 29
+    "{"         shift, and go to state 30
+
+    object           go to state 31
+    operator_binary  go to state 32
+    expression       go to state 83
+    reference        go to state 34
+    numeric_value    go to state 35
+    value_literal    go to state 36
+
+
+State 82
+
+   29 object_elements_list: object_elements_list "," object_element •
+
+    $default  reduce using rule 29 (object_elements_list)
+
+
+State 83
+
+   31 object_element: object_element_name ":" expression •
+   34 operator_binary: expression • "or operator" expression
+   35                | expression • "and operator" expression
+   36                | expression • "==" expression
+   37                | expression • "!=" expression
+   38                | expression • "<" expression
+   39                | expression • ">" expression
+   40                | expression • "<=" expression
+   41                | expression • ">=" expression
+   42                | expression • "IN" expression
+
+    "IN"            shift, and go to state 45
+    "=="            shift, and go to state 46
+    "!="            shift, and go to state 47
+    "<"             shift, and go to state 48
+    ">"             shift, and go to state 49
+    "<="            shift, and go to state 50
+    ">="            shift, and go to state 51
+    "and operator"  shift, and go to state 52
+    "or operator"   shift, and go to state 53
+
+    $default  reduce using rule 31 (object_element)
