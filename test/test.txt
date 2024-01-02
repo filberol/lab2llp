@@ -1,0 +1,3 @@
+FOR u IN users
+  FOR p IN products
+    INSERT { _from: u._id, _so: p._val } IN recommendations
