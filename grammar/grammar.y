@@ -4,7 +4,7 @@
     #include <stdio.h>
     #include <math.h>
     #include <stdbool.h>
-    #include "ast.h"
+    #include "../include/ast.h"
     extern void yyerror (char const *);
     extern int yylex(void);
 
@@ -129,24 +129,23 @@ for_output_variable:
 for_statement:
     T_FOR for_output_variable T_IN expression {
         struct AstNode* variableNameNode = (struct AstNode*)($2);
-        struct AstNode* variableNode = createNodeVariable(variableNameNode->astNodeValue._string);
-        addVariable(variableNameNode->astNodeValue._string, variableNode); //todo MANY VARIABLES??
-        addOperation(getCurrScope(), createNodeFor(variableNode, $4));
+        struct AstNode* variableNode = create_variable_node(variableNameNode->astNodeValue._string);
+        addVariable(variableNameNode->astNodeValue._string, variableNode);
+        addOperation(get_current_scope(), createNodeFor(variableNode, $4));
     }
   ;
 
 filter_statement:
     T_FILTER expression {
-      // operand is a reference. can use it directly
-      struct AstNode* filterNode = createNodeFilter($2);
-      addOperation(getCurrScope(), filterNode);
+      struct AstNode* filterNode = create_filter_node($2);
+      addOperation(get_current_scope(), filterNode);
     }
   ;
 
 return_statement:
     T_RETURN expression {
-      struct AstNode* node = createNodeReturn($2);
-      addOperation(getCurrScope(), node);
+      struct AstNode* node = create_return_node($2);
+      addOperation(get_current_scope(), node);
     }
   ;
 
@@ -158,22 +157,22 @@ in_collection:
 
 remove_statement:
     T_REMOVE expression in_collection  {
-      struct AstNode* node = createNodeRemove($2, $3);
-      addOperation(getCurrScope(), node);
+      struct AstNode* node = create_remove_node($2, $3);
+      addOperation(get_current_scope(), node);
     }
   ;
 
 insert_statement:
     T_INSERT expression in_collection {
-      struct AstNode* node = createNodeInsert($2, $3);
-      addOperation(getCurrScope(), node);
+      struct AstNode* node = create_insert_node($2, $3);
+      addOperation(get_current_scope(), node);
     }
   ;
 
 update_parameters:
     expression in_collection {
-      struct AstNode* node = createNodeUpdate($1, $2);
-      addOperation(getCurrScope(), node);
+      struct AstNode* node = create_update_node($1, $2);
+      addOperation(get_current_scope(), node);
     }
   ;
 
@@ -210,13 +209,12 @@ object_elements_list:
 
 object_element:
     T_STRING {
-      struct AstNode* variable = getVariable($1);
-      struct AstNode* node = createNodeReference(variable);
+      struct AstNode* variable = get_variable($1);
+      struct AstNode* node = create_reference_node(variable);
       pushObjectElement($1, node);
       $$ = node;
     }
   | object_element_name T_COLON expression {
-      // attribute-name : attribute-value
       pushObjectElement($1, $3);
     }
   ;
@@ -224,10 +222,10 @@ object_element:
 
 object_element_name:
     T_STRING {
-      $$ = copyStr($1);
+      $$ = copy_string($1);
     }
   | T_QUOTED_STRING {
-      $$ = copyQuotedString($1);
+      $$ = copy_quoted_string($1);
     }
 
 operator_binary:
@@ -274,10 +272,10 @@ expression:
 
 reference:
     T_STRING {
-]      struct AstNode* node = NULL;
+      struct AstNode* node = NULL;
       void* variable = NULL;
 
-      variable = getVariable($1);
+      variable = get_variable($1);
       if (variable == NULL) {
           node = createNodeDataSource($1);
       } else {
@@ -319,10 +317,10 @@ value_literal:
       $$ = createNodeValueNull();
     }
   | T_TRUE {
-      $$ = createNodeValueBool(true);
+      $$ = create_bool_node(true);
     }
   | T_FALSE {
-      $$ = createNodeValueBool(false);
+      $$ = create_bool_node(false);
     }
   ;
 
@@ -334,7 +332,7 @@ in_collection_name:
 
 variable_name:
     T_STRING {
-      $$ = copyStr($1);
+      $$ = copy_string($1);
     }
   ;
 

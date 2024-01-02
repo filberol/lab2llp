@@ -29,7 +29,7 @@
 ">" { return T_GT; }
 "<=" { return T_LE; }
 "<" { return T_LT; }
-"," { return T_COMMA;
+"," { return T_COMMA; }
 "(" { return T_OPEN; }
 ")" { return T_CLOSE; }
 ":" { return T_COLON; }
@@ -52,7 +52,7 @@
 
 (0|[1-9][0-9]*) {
   /* a numeric integer value, base 10 (decimal) */
-  yylval.node = createNodeValueInt(atoi(yytext));
+  yylval.node = create_int_node(atoi(yytext));
   return T_INTEGER;
 }
 
