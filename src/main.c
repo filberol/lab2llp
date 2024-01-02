@@ -84,11 +84,11 @@ static void generateDotCode(struct AstNode *node, FILE *dotFile, int id) {
     if (node == NULL) {
         return;
     }
-    fprintf(dotFile, "%d [ label=\"Type: %s Value: %s\"];\n", id, typeString[node->type], getValue(node));
+    fprintf(dotFile, "\t%d [ label=\"Type: %s Value: %s\" ];\n", id, typeString[node->type], getValue(node));
     for (size_t i = 0; i < node->children.children_count; i++) {
         struct AstNode *childNode = node->children.data[i];
         max_id++;
-        fprintf(dotFile, "%d -> %d;\n", id, max_id);
+        fprintf(dotFile, "\t\t%d -> %d;\n", id, max_id);
         generateDotCode(childNode, dotFile, max_id);
     }
 }
@@ -114,7 +114,6 @@ int main(int argc, char **argv) {
     struct AstNode *root = get_ast_root();
     fprintf(dotFile, "digraph AstTree {\n");
     generateDotCode(root, dotFile, 0);
-    fprintf(dotFile, "}\n");
     fprintf(dotFile, "}\n");
     fclose(dotFile);
     return 0;
